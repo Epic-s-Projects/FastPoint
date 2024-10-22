@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "90443896745",
-    "project_id": "teste-firebase-tarde-rafael",
-    "storage_bucket": "teste-firebase-tarde-rafael.appspot.com"
+    "project_number": "933988309246",
+    "project_id": "fast_point_firebase",
+    "storage_bucket": "fast_point_firebase.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:90443896745:android:2459fb1611a368f5b7d6b8",
+        "mobilesdk_app_id": "1:933988309246:android:0c24b4d361cee0a0d72daf",
         "android_client_info": {
-          "package_name": "br.com.rafaelmoura23"
+          "package_name": "com.example"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD5uQ2-fn96nzCZctIzI-8ByxFb7cuwZSY"
+          "current_key": "AIzaSyB8g43Olmml1fQS-Lxh45puJQQlmFjr8nI"
         }
       ],
       "services": {
