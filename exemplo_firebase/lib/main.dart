@@ -1,31 +1,25 @@
-import 'package:exemplo_firebase/firebase_options.dart';
-import 'package:exemplo_firebase/screens/home_screen_view.dart';
-import 'package:exemplo_firebase/screens/registro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:exemplo_firebase/screens/login_screen_view.dart';
 
-import 'screens/login_screen_view.dart';
-
-void main () async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
-  runApp(const MainApp());
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomeScreen(),
-      routes: {
-        '/home': (context) => const HomeScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/cadastro': (context) => const RegistroScreen()
-      },
+      debugShowCheckedModeBanner: false,
+      title: 'FastPoint',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
+      home: const LoginScreen(),
     );
   }
 }

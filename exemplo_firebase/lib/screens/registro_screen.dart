@@ -1,90 +1,72 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import '../service/auth_service.dart';
-
-class RegistroScreen extends StatefulWidget {
-  const RegistroScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegistroScreen> createState() => _RegistroScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegistroScreenState extends State<RegistroScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  final AuthService _authService = AuthService();
+  Future<void> _register() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Cadastro realizado com sucesso!')),
+      );
+      Navigator.pop(context); // Volta para a tela de login
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Erro ao cadastrar usuário')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // tela de registro com confirmação de senha
+      appBar: AppBar(title: const Text('Cadastro')),
       body: Padding(
-        padding: EdgeInsets.all(12),
-        child: Center(
-          child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                  //campos do form
-                  children: <Widget>[
-                    TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'E-mail',
-                        ),
-                        validator: (value) {}),
-                    TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Senha',
-                        ),
-                        validator: (value) {}),
-                    TextFormField(
-                        controller: _confirmPasswordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Confirmar Senha',
-                        ),
-                        validator: (value) {}),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        _registrar();
-                      },
-                      child: Text('Registrar'),
-                    ),
-                  ])),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Senha'),
+              obscureText: true,
+            ),
+            const SizedBox(height: 20),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+              onPressed: _register,
+              child: const Text('Cadastrar'),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  Future<void> _registrar() async {
-    if (_confirmPasswordController.text == _passwordController.text) {
-      if (_formKey.currentState!.validate()) {
-        _authService.registerWithEmail(
-            _emailController.text, _confirmPasswordController.text);
-            Navigator.pushNamed(context, '/login');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Preencha todos os campos'),
-          ),
-        );
-        return null;
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Senhas não conferem'),
-        ),
-      );
-      return null;
-    }
   }
 }

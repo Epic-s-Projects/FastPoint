@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "933988309246",
-    "project_id": "fast_point_firebase",
-    "storage_bucket": "fast_point_firebase.appspot.com"
+    "project_number": "705624713433",
+    "project_id": "fast-point-biometria",
+    "storage_bucket": "fast-point-biometria.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:933988309246:android:0c24b4d361cee0a0d72daf",
+        "mobilesdk_app_id": "1:705624713433:android:13de5b216b5f63c90cb6c8",
         "android_client_info": {
-          "package_name": "com.example"
+          "package_name": "com.example.exemplo_firebase"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB8g43Olmml1fQS-Lxh45puJQQlmFjr8nI"
+          "current_key": "AIzaSyA6cAtVz7PfFIHhgsRN-5czN36ZyLCETOg"
         }
       ],
       "services": {
