@@ -25,3 +25,8 @@ flutter:
 
   assets:
     - assets/
+
+  fonts:
+    - family: BalooBhaijaan
+      fonts:
+        - asset: assets/fonts/BalooBhaijaan-Regular.ttf

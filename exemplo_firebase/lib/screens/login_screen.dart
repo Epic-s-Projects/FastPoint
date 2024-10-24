@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                  fontFamily: 'BalooBhaijaan', // Defina a família da fonte aqui
                 ),
               ),
               SizedBox(height: 32),
@@ -76,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Campo de Email
               TextField(
                 controller: _emailController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.white),
@@ -92,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // Campo de Senha
               TextField(
                 controller: _passwordController,
+                style: TextStyle(color: Colors.white),
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Senha',
