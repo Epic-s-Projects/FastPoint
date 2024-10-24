@@ -1,31 +1,23 @@
-import 'package:exemplo_firebase/firebase_options.dart';
-import 'package:exemplo_firebase/screens/home_screen_view.dart';
-import 'package:exemplo_firebase/screens/registro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:exemplo_firebase/screens/login_screen.dart';
 
-import 'screens/login_screen_view.dart';
-
-void main () async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
-  runApp(const MainApp());
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomeScreen(),
-      routes: {
-        '/home': (context) => const HomeScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/cadastro': (context) => const RegistroScreen()
-      },
+      title: 'Flutter Login',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
+      home: LoginScreen(),
     );
   }
 }

@@ -1,8 +1,8 @@
 {
   "project_info": {
     "project_number": "933988309246",
-    "project_id": "fast_point_firebase",
-    "storage_bucket": "fast_point_firebase.appspot.com"
+    "project_id": "fastpoint-api",
+    "storage_bucket": "fastpoint-api.appspot.com"
   },
   "client": [
     {
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB8g43Olmml1fQS-Lxh45puJQQlmFjr8nI"
+          "current_key": "AIzaSyDhEsvnhquwAkLGTfzV8systY2kaZIouuI"
         }
       ],
       "services": {
