@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:exemplo_firebase/service/auth_service.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Pacote para armazenamento seguro
+import 'package:local_auth/local_auth.dart'; // Pacote para biometria
 import 'pagina_interna.dart'; // Importe a página interna
 
 class LoginScreen extends StatefulWidget {
@@ -12,25 +15,138 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService(); // Instância do AuthService
+  final LocalAuthentication auth = LocalAuthentication(); // Instância do LocalAuth para biometria
+  final FlutterSecureStorage storage = FlutterSecureStorage(); // Instância do Secure Storage
+  bool _isBiometricAvailable = false;
+  List<BiometricType> _availableBiometrics = [];
 
-  // Função para realizar o login
+  @override
+  void initState() {
+    super.initState();
+    _checkBiometrics();
+    _checkForSavedCredentials();
+  }
+
+  // Função para verificar se a biometria está disponível no dispositivo
+  Future<void> _checkBiometrics() async {
+    try {
+      bool canCheckBiometrics = await auth.canCheckBiometrics;
+      List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
+      setState(() {
+        _isBiometricAvailable = canCheckBiometrics;
+        _availableBiometrics = availableBiometrics;
+      });
+      print('Biometria disponível: $_isBiometricAvailable');
+      print('Tipos de biometria disponíveis: $_availableBiometrics');
+    } catch (e) {
+      print('Erro ao verificar biometria: $e');
+    }
+  }
+
+  // Função para verificar se há credenciais salvas
+  Future<void> _checkForSavedCredentials() async {
+    print('Verificando credenciais salvas...');
+    String? email = await storage.read(key: 'email');
+    String? password = await storage.read(key: 'password');
+    print('Credenciais salvas: Email - $email, Senha - $password');
+
+    if (email != null && password != null) {
+      _authenticateWithBiometrics();
+    }
+  }
+
+  // Função para autenticação biométrica (impressão digital ou reconhecimento facial)
+  Future<void> _authenticateWithBiometrics() async {
+    try {
+      print('Iniciando autenticação biométrica...');
+      bool authenticated = await auth.authenticate(
+        localizedReason: 'Autentique-se para fazer login',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+
+      if (authenticated) {
+        print('Autenticação biométrica bem-sucedida.');
+        // Se a autenticação biométrica for bem-sucedida, fazer login no Firebase
+        final credentials = await _readCredentials();
+        if (credentials['email'] != null && credentials['password'] != null) {
+          _signInWithEmailAndPassword(credentials['email']!, credentials['password']!);
+        } else {
+          print('Credenciais não encontradas após autenticação biométrica.');
+        }
+      } else {
+        print('Autenticação biométrica falhou.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Autenticação falhou. Tente novamente.")),
+        );
+      }
+    } on PlatformException catch (e) {
+      print('Erro na autenticação biométrica: $e');
+      if (e.code == 'NotAvailable') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Nenhuma biometria disponível no dispositivo.")),
+        );
+      } else if (e.code == 'NotEnrolled') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Nenhuma credencial biométrica configurada.")),
+        );
+      } else if (e.code == 'LockedOut') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Muitas tentativas falhas. Tente mais tarde.")),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Erro durante a autenticação biométrica.")),
+        );
+      }
+    }
+  }
+
+  // Função para realizar o login com email e senha e salvar as credenciais
+  // Função para realizar o login com email e senha e salvar as credenciais
   void _login() async {
-    User? user = await _authService.signInWithEmail(
+    print('Iniciando login com email e senha...');
+    Map<String, dynamic>? userData = await _authService.signInWithEmail(
       _emailController.text.trim(),
       _passwordController.text.trim(),
     );
 
-    if (user != null) {
-      // Se o login for bem-sucedido, redireciona para a página interna
+    if (userData != null) {
+      String name = userData['name'] ?? 'Funcionário'; // Obtém o nome do Firestore
+      print('Login bem-sucedido. Nome do usuário: $name');
+
+      // Salvando as credenciais no armazenamento seguro
+      await _saveCredentials(_emailController.text.trim(), _passwordController.text.trim());
+      print('Credenciais salvas com sucesso.');
+
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen(name: name)),
       );
     } else {
-      // Exibe uma mensagem de erro caso o login falhe
+      print('Erro ao realizar login.');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Falha no login. Verifique suas credenciais.")),
       );
     }
+  }
+
+
+  // Função para salvar credenciais localmente
+  Future<void> _saveCredentials(String email, String password) async {
+    await storage.write(key: 'email', value: email);
+    await storage.write(key: 'password', value: password);
+    print('Credenciais salvas: Email - $email, Senha - $password');
+  }
+
+  // Função para ler credenciais salvas
+  Future<Map<String, String?>> _readCredentials() async {
+    String? email = await storage.read(key: 'email');
+    String? password = await storage.read(key: 'password');
+    print('Lendo credenciais armazenadas: Email - $email, Senha - $password');
+    return {'email': email, 'password': password};
   }
 
   @override
@@ -50,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo
               CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.white,
@@ -61,8 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 24),
-
-              // Título
               Text(
                 'FastPoint',
                 style: TextStyle(
@@ -73,8 +186,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 32),
-
-              // Campo de Email
               TextField(
                 controller: _emailController,
                 style: TextStyle(color: Colors.white),
@@ -90,8 +201,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 16),
-
-              // Campo de Senha
               TextField(
                 controller: _passwordController,
                 style: TextStyle(color: Colors.white),
@@ -108,8 +217,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 24),
-
-              // Botão de Login
               ElevatedButton(
                 onPressed: _login, // Chama o método de login
                 style: ElevatedButton.styleFrom(
@@ -127,29 +234,41 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 16),
-
-              // Link de recuperação de senha
               Text(
                 'Esqueceu sua senha?',
                 style: TextStyle(color: Colors.white),
               ),
               SizedBox(height: 32),
 
-              // Autenticação com impressão digital (Somente visual, sem funcionalidade real)
-              Column(
-                children: [
-                  Icon(Icons.fingerprint, size: 60, color: Colors.white),
-                  SizedBox(height: 8),
-                  Text(
-                    'Entre utilizando sua impressão digital',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
+              // Mostre o ícone da biometria, se disponível
+              if (_isBiometricAvailable)
+                IconButton(
+                  icon: Icon(Icons.fingerprint, size: 60, color: Colors.white),
+                  onPressed: _authenticateWithBiometrics,
+                ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // Função para realizar o login com email e senha usando as credenciais salvas
+  Future<void> _signInWithEmailAndPassword(String email, String password) async {
+    print('Tentando login com email: $email');
+    Map<String, dynamic>? userData = await _authService.signInWithEmail(email, password);
+
+    if (userData != null) {
+      String name = userData['name'] ?? 'Funcionário'; // Obtém o nome do Firestore
+      print('Login bem-sucedido. Nome do usuário: $name');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen(name: name)),
+      );
+    } else {
+      print('Erro ao realizar login');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao realizar login. Verifique suas credenciais.")),
+      );
+    }
   }
 }

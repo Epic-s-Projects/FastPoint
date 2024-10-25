@@ -1,36 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  // construir login do usuario
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance; // Instância do Firestore
 
-  // login do usuario
-  Future<User?> signInWithEmail(String email, String password) async {
+  // Login do usuário com email e senha e retorna os dados do Firestore
+  Future<Map<String, dynamic>?> signInWithEmail(String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
-      return user;
+
+      if (user != null) {
+        // Busca os dados adicionais no Firestore
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          return userDoc.data() as Map<String, dynamic>; // Retorna o documento do Firestore
+        } else {
+          print('Usuário não encontrado no Firestore');
+          return null;
+        }
+      } else {
+        return null;
+      }
     } catch (e) {
-      print(e.toString());
+      print('Erro ao realizar login: $e');
       return null;
     }
   }
 
-  // create a new user
-  Future<void> registerWithEmail(String email, String password) async {
-    try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  // logout do usuario
+  // Logout do usuário
   Future<void> signOut() async {
     try {
       return await _auth.signOut();
     } catch (e) {
-      print(e.toString());
+      print('Erro ao realizar logout: $e');
       return null;
     }
   }

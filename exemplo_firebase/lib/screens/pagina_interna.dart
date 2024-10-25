@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:exemplo_firebase/screens/login_screen.dart';
+import 'package:exemplo_firebase/service/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String name; // Adiciona o nome como parâmetro
+
+  HomeScreen({required this.name}); // Construtor da HomeScreen
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   bool isExpanded = false;
+  final AuthService _authService = AuthService();
+
+  void _logout(BuildContext context) async {
+    await _authService.signOut();
+    // Após o logout, redirecionar de volta à tela de login
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +50,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.more_vert, color: Colors.white),
-                      Icon(Icons.map_outlined, color: Colors.white),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.exit_to_app, color: Colors.white),
+                            onPressed: () => _logout(context), // Adiciona o botão de logout
+                          ),
+                          Icon(Icons.map_outlined, color: Colors.white),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -66,8 +89,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   child: Icon(Icons.person, size: 60, color: Color(0xFF7B2CBF)),
                 ),
                 SizedBox(height: 8),
+                // Exibe o nome do usuário que foi passado para a tela
                 Text(
-                  'Funcionário',
+                  widget.name, // Exibe o nome passado
                   style: TextStyle(
                     color: Colors.purple,
                     fontSize: 18,
