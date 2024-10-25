@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:exemplo_firebase/screens/login_screen.dart';
 import 'package:exemplo_firebase/service/auth_service.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
-  final String name; // Adiciona o nome como parâmetro
+  final String name;
+  final String imageUrl;
 
-  HomeScreen({required this.name}); // Construtor da HomeScreen
+  HomeScreen({required this.name, required this.imageUrl});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -15,9 +18,30 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool isExpanded = false;
   final AuthService _authService = AuthService();
 
+  // Variáveis para data e hora
+  String _timeString = '';
+  String _dateString = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _updateTime();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _updateTime());
+  }
+
+  void _updateTime() {
+    final DateTime now = DateTime.now();
+    final String formattedTime = DateFormat('HH:mm').format(now);
+    final String formattedDate = DateFormat('dd/MM/yyyy').format(now);
+
+    setState(() {
+      _timeString = formattedTime;
+      _dateString = formattedDate;
+    });
+  }
+
   void _logout(BuildContext context) async {
     await _authService.signOut();
-    // Após o logout, redirecionar de volta à tela de login
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => LoginScreen()),
     );
@@ -28,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return Scaffold(
       body: Column(
         children: [
-          // Parte superior (hora, data, imagem do funcionário)
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -37,13 +60,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(40),
+                bottom: Radius.circular(60),
               ),
             ),
             padding: EdgeInsets.symmetric(vertical: 40),
             child: Column(
               children: [
-                // Ícones no topo
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -54,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         children: [
                           IconButton(
                             icon: Icon(Icons.exit_to_app, color: Colors.white),
-                            onPressed: () => _logout(context), // Adiciona o botão de logout
+                            onPressed: () => _logout(context),
                           ),
                           Icon(Icons.map_outlined, color: Colors.white),
                         ],
@@ -64,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
                 SizedBox(height: 20),
 
-                // Hora e data
+                // Hora e data atualizadas
                 Text(
-                  '14:32',
+                  _timeString,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 48,
@@ -74,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ),
                 ),
                 Text(
-                  '22/10/2024',
+                  _dateString,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -82,19 +104,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
                 SizedBox(height: 16),
 
-                // Avatar e nome do funcionário
+                // CircleAvatar com a imagem do usuário
                 CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: 60, color: Color(0xFF7B2CBF)),
+                  backgroundImage: widget.imageUrl.isNotEmpty
+                      ? NetworkImage(widget.imageUrl)
+                      : null,
+                  child: widget.imageUrl.isEmpty
+                      ? Icon(Icons.person, size: 120, color: Color(0xFF7B2CBF))
+                      : null,
                 ),
                 SizedBox(height: 8),
-                // Exibe o nome do usuário que foi passado para a tela
+
                 Text(
-                  widget.name, // Exibe o nome passado
+                  widget.name,
                   style: TextStyle(
-                    color: Colors.purple,
-                    fontSize: 18,
+                    color: Colors.white,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -102,8 +129,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
             ),
           ),
-
-          // Cards scrolláveis
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(16),
@@ -116,51 +141,59 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ),
         ],
       ),
-
-      // Botão flutuante com botões menores que aparecem
       floatingActionButton: Stack(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.bottomRight,  // Use Alignment.bottomRight para manter o padrão de FAB
         children: [
           if (isExpanded) ...[
             Positioned(
+              right: 16,  // Ajusta para manter o botão à direita
               bottom: 90,
               child: FloatingActionButton(
-                mini: true,
-                onPressed: () {},
+                onPressed: () {
+                  _authService.baterPonto();
+                },
+                child: Icon(Icons.location_on),
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.fingerprint),
               ),
+
             ),
             Positioned(
+              right: 16,
               bottom: 140,
               child: FloatingActionButton(
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.person),
+                child: Icon(Icons.person, color: Colors.white),
               ),
             ),
             Positioned(
+              right: 16,
               bottom: 190,
               child: FloatingActionButton(
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.code),
+                child: Icon(Icons.code, color: Colors.white),
               ),
             ),
           ],
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
-            backgroundColor: Colors.purple,
-            child: Icon(isExpanded ? Icons.close : Icons.menu),
+          Positioned(
+            right: 16,  // Posiciona o botão principal no canto inferior direito
+            bottom: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              backgroundColor: Colors.purple,
+              child: Icon(isExpanded ? Icons.close : Icons.menu, color: Colors.white),
+            ),
           ),
         ],
       ),
+
     );
   }
 
