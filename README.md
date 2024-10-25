@@ -56,8 +56,7 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 
 <br><br><br><br><br>
 
-<br><br><br><br><br>
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Usuário" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Funcionário" alt="Typing SVG" />
 
 ### Acesso ao Sistema
 
@@ -118,6 +117,40 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
     - Acesse **"Visualizar Reservas"** para ver todas as reservas feitas por hóspedes.
     - Você pode emitir pagamentos e acessar extratos de emissão fiscal.
 <br><br><br><br><br>
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Testes Unitários" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Desenvolvedores do Projeto" alt="Typing SVG" />
 
-### - [Pasta de Testes Unitários](https://github.com/epicestudar/Hostly-spring-API/tree/main/hostly_api/src/main/java/com/example/hostly_api/Testes).
+<div align=center>
+  <table style="width: 100%">
+    <tbody>
+      <tr align=center>
+        <th><strong> Eduardo Sinico </br> Edu1Sinico </strong></th>
+        <th><strong> João Victor de Lima </br> JoaovlLima </strong></th>
+        <th><strong> Rafael Souza de Moura </br> rafaelmoura23</strong></th>
+         <th><strong> Vinícius Granço Feitoza </br> epicestudar </strong></th>
+      </tr>
+      <tr align=center>
+        <td>
+          <a href="https://github.com/Edu1Sinico">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Edu1Sinico">
+          </a>
+        </td>
+        <td>
+          <a href="https://github.com/JoaovlLima">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/JoaovlLima">
+          </a>
+        </td>
+         <td>
+          <a href="https://github.com/rafaelmoura23">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/rafaelmoura23">
+          </a>
+        </td>
+         <td>
+          <a href="https://github.com/epicestudar">
+            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/epicestudar">
+          </a>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
