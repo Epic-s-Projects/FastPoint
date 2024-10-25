@@ -6,8 +6,9 @@ import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   final String name;
+  final String imageUrl;
 
-  HomeScreen({required this.name});
+  HomeScreen({required this.name, required this.imageUrl});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -32,9 +33,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     final DateTime now = DateTime.now();
     final String formattedTime = DateFormat('HH:mm').format(now);
     final String formattedDate = DateFormat('dd/MM/yyyy').format(now);
-
-    print(formattedTime); // Verificar a saída no console
-    print(formattedDate); // Verificar a saída no console
 
     setState(() {
       _timeString = formattedTime;
@@ -106,18 +104,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
                 SizedBox(height: 16),
 
+                // CircleAvatar com a imagem do usuário
                 CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: 60, color: Color(0xFF7B2CBF)),
+                  backgroundImage: widget.imageUrl.isNotEmpty
+                      ? NetworkImage(widget.imageUrl)
+                      : null,
+                  child: widget.imageUrl.isEmpty
+                      ? Icon(Icons.person, size: 120, color: Color(0xFF7B2CBF))
+                      : null,
                 ),
                 SizedBox(height: 8),
 
                 Text(
                   widget.name,
                   style: TextStyle(
-                    color: Colors.purple,
-                    fontSize: 18,
+                    color: Colors.white,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -138,48 +142,58 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ],
       ),
       floatingActionButton: Stack(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.bottomRight,  // Use Alignment.bottomRight para manter o padrão de FAB
         children: [
           if (isExpanded) ...[
             Positioned(
+              right: 16,  // Ajusta para manter o botão à direita
               bottom: 90,
               child: FloatingActionButton(
-                mini: true,
-                onPressed: () {},
+                onPressed: () {
+                  _authService.baterPonto();
+                },
+                child: Icon(Icons.location_on),
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.fingerprint),
               ),
+
             ),
             Positioned(
+              right: 16,
               bottom: 140,
               child: FloatingActionButton(
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.person),
+                child: Icon(Icons.person, color: Colors.white),
               ),
             ),
             Positioned(
+              right: 16,
               bottom: 190,
               child: FloatingActionButton(
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.code),
+                child: Icon(Icons.code, color: Colors.white),
               ),
             ),
           ],
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
-            backgroundColor: Colors.purple,
-            child: Icon(isExpanded ? Icons.close : Icons.menu),
+          Positioned(
+            right: 16,  // Posiciona o botão principal no canto inferior direito
+            bottom: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              backgroundColor: Colors.purple,
+              child: Icon(isExpanded ? Icons.close : Icons.menu, color: Colors.white),
+            ),
           ),
         ],
       ),
+
     );
   }
 

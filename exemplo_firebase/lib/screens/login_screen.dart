@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Pacote para armazenamento seguro
 import 'package:local_auth/local_auth.dart'; // Pacote para biometria
 import 'pagina_interna.dart'; // Importe a página interna
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -116,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (userData != null) {
       String name = userData['name'] ?? 'Funcionário'; // Obtém o nome do Firestore
+      String urlImage = userData['image_url'] ?? 'https://teste.com';
       print('Login bem-sucedido. Nome do usuário: $name');
 
       // Salvando as credenciais no armazenamento seguro
@@ -123,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Credenciais salvas com sucesso.');
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen(name: name)),
+        MaterialPageRoute(builder: (context) => HomeScreen(name: name, imageUrl: urlImage,)),
       );
     } else {
       print('Erro ao realizar login.');
@@ -260,9 +263,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (userData != null) {
       String name = userData['name'] ?? 'Funcionário'; // Obtém o nome do Firestore
+      String urlImage = userData['image_url'] ?? 'https://teste.com';
       print('Login bem-sucedido. Nome do usuário: $name');
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen(name: name)),
+        MaterialPageRoute(builder: (context) => HomeScreen(name: name, imageUrl: urlImage)),
       );
     } else {
       print('Erro ao realizar login');
