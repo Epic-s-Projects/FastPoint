@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:exemplo_firebase/screens/login_screen.dart';
 import 'package:exemplo_firebase/service/auth_service.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
-  final String name; // Adiciona o nome como parâmetro
+  final String name;
 
-  HomeScreen({required this.name}); // Construtor da HomeScreen
+  HomeScreen({required this.name});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -15,9 +17,33 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   bool isExpanded = false;
   final AuthService _authService = AuthService();
 
+  // Variáveis para data e hora
+  String _timeString = '';
+  String _dateString = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _updateTime();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _updateTime());
+  }
+
+  void _updateTime() {
+    final DateTime now = DateTime.now();
+    final String formattedTime = DateFormat('HH:mm').format(now);
+    final String formattedDate = DateFormat('dd/MM/yyyy').format(now);
+
+    print(formattedTime); // Verificar a saída no console
+    print(formattedDate); // Verificar a saída no console
+
+    setState(() {
+      _timeString = formattedTime;
+      _dateString = formattedDate;
+    });
+  }
+
   void _logout(BuildContext context) async {
     await _authService.signOut();
-    // Após o logout, redirecionar de volta à tela de login
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => LoginScreen()),
     );
@@ -28,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return Scaffold(
       body: Column(
         children: [
-          // Parte superior (hora, data, imagem do funcionário)
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -37,13 +62,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(40),
+                bottom: Radius.circular(60),
               ),
             ),
             padding: EdgeInsets.symmetric(vertical: 40),
             child: Column(
               children: [
-                // Ícones no topo
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -54,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         children: [
                           IconButton(
                             icon: Icon(Icons.exit_to_app, color: Colors.white),
-                            onPressed: () => _logout(context), // Adiciona o botão de logout
+                            onPressed: () => _logout(context),
                           ),
                           Icon(Icons.map_outlined, color: Colors.white),
                         ],
@@ -64,9 +88,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
                 SizedBox(height: 20),
 
-                // Hora e data
+                // Hora e data atualizadas
                 Text(
-                  '14:32',
+                  _timeString,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 48,
@@ -74,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ),
                 ),
                 Text(
-                  '22/10/2024',
+                  _dateString,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -82,16 +106,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
                 SizedBox(height: 16),
 
-                // Avatar e nome do funcionário
                 CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.white,
                   child: Icon(Icons.person, size: 60, color: Color(0xFF7B2CBF)),
                 ),
                 SizedBox(height: 8),
-                // Exibe o nome do usuário que foi passado para a tela
+
                 Text(
-                  widget.name, // Exibe o nome passado
+                  widget.name,
                   style: TextStyle(
                     color: Colors.purple,
                     fontSize: 18,
@@ -102,8 +125,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ],
             ),
           ),
-
-          // Cards scrolláveis
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(16),
@@ -116,8 +137,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ),
         ],
       ),
-
-      // Botão flutuante com botões menores que aparecem
       floatingActionButton: Stack(
         alignment: Alignment.bottomCenter,
         children: [
