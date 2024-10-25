@@ -10,47 +10,66 @@ class LocationMap extends StatefulWidget {
 
 class _LocationMapState extends State<LocationMap> {
   late GoogleMapController _mapController;
-  LatLng _initialPosition = LatLng(-23.5505, -46.6333); // Localização padrão
-  final double workLatitude = -23.5505; // Latitude do local de trabalho
-  final double workLongitude = -46.6333; // Longitude do local de trabalho
+  LatLng _initialPosition = LatLng(-22.570701145130165, -47.40414378376208); // Localização padrão
+  final double workLatitude = -22.570701145130165; // Latitude do local de trabalho
+  final double workLongitude = -47.40414378376208; // Longitude do local de trabalho
+
+  bool _canRegister = false; // Controla se o funcionário pode bater ponto
 
   @override
   void initState() {
     super.initState();
-    _setCurrentLocation();
+    _setCurrentLocation(); // Inicializa a localização.
+    _listenToLocationChanges(); // Monitora a movimentação em tempo real.
   }
 
   Future<void> _setCurrentLocation() async {
     try {
       Position position = await getCurrentLocation();
-      setState(() {
-        _initialPosition = LatLng(position.latitude, position.longitude);
-      });
+      _updateLocationAndStatus(position); // Atualiza localização e estado.
 
-      // Verificar se está dentro do raio de 100 metros
-      if (!isWithinRange(position.latitude, position.longitude, workLatitude, workLongitude)) {
-        _showNotification('Você precisa estar dentro da zona limite para registrar o ponto.');
-      } else {
+      if (_canRegister) {
         _showNotification('Você está dentro do limite. Pode registrar seu ponto.');
+      } else {
+        _showNotification('Você precisa estar dentro da zona limite para registrar o ponto.');
       }
-
     } catch (e) {
       print(e);
       _showNotification('Erro ao obter a localização.');
     }
   }
 
+  void _listenToLocationChanges() {
+    Geolocator.getPositionStream(
+      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
+    ).listen((Position position) {
+      _updateLocationAndStatus(position); // Atualiza estado em tempo real.
+    });
+  }
+
+  void _updateLocationAndStatus(Position position) {
+    bool withinRange = isWithinRange(
+      position.latitude,
+      position.longitude,
+      workLatitude,
+      workLongitude,
+    );
+
+    setState(() {
+      _initialPosition = LatLng(position.latitude, position.longitude);
+      _canRegister = withinRange;
+    });
+  }
+
   Future<Position> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Verifica se o serviço de localização está ativado.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Serviço de localização está desativado.');
     }
 
-    // Verifica e solicita permissões de localização.
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -63,14 +82,22 @@ class _LocationMapState extends State<LocationMap> {
       return Future.error('Permissão permanentemente negada.');
     }
 
-    // Retorna a posição atual do dispositivo.
     return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 
   bool isWithinRange(double lat1, double lon1, double lat2, double lon2) {
     double distance = Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
-    return distance <= 100; // 100 metros
+    return distance <= 100; // Verifica se está dentro de 100 metros.
+  }
+
+  void _registerPoint() {
+    if (_canRegister) {
+      _showNotification('Ponto registrado com sucesso!');
+    } else {
+      _showNotification('Você não está na área permitida para bater ponto.');
+    }
   }
 
   void _showNotification(String message) {
@@ -91,21 +118,39 @@ class _LocationMapState extends State<LocationMap> {
       appBar: AppBar(
         title: Text('Localização Atual'),
       ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: _initialPosition,
-          zoom: 16.0,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          _mapController = controller;
-        },
-        markers: {
-          Marker(
-            markerId: MarkerId('currentLocation'),
-            position: _initialPosition,
-            infoWindow: InfoWindow(title: 'Você está aqui'),
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: _initialPosition,
+              zoom: 16.0,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              _mapController = controller;
+            },
+            markers: {
+              Marker(
+                markerId: MarkerId('currentLocation'),
+                position: _initialPosition,
+                infoWindow: InfoWindow(title: 'Você está aqui'),
+              ),
+            },
           ),
-        },
+          Positioned(
+            top: 16,
+            right: 16,
+            child: ElevatedButton(
+              onPressed: _registerPoint,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _canRegister ? Colors.green : Colors.red,
+              ),
+              child: Text(
+                _canRegister ? 'Registrar Ponto' : 'Fora da Área',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
