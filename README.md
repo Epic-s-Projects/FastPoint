@@ -20,20 +20,20 @@ Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando
 <br>
 <br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Gerenciamento de Reservas" alt="Typing SVG" /></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Registro de Ponto" alt="Typing SVG" /></a>
 
-## Apresentação do Projeto: Desenvolvimento de Aplicação sobre Gerenciamento de Reservas
+## Apresentação do Projeto: Desenvolvimento de Aplicativo sobre Registro de Ponto
 
 ### Visão Geral do Projeto
 **Objetivo:**
-Desenvolver um sistema para gerenciamento de reservas de hotel, onde o administrador poderá cadastrar quartos, gerenciar reservas, buscar hóspedes no sistema e acessar extratos de emissão fiscal. Hóspedes poderão solicitar reservas em quartos disponíveis e efetuar o pagamento. A aplicação utilizará tecnologias modernas e práticas de mercado, garantindo segurança, escalabilidade e uma experiência de usuário fluida por meio de Java Swing para a interface e Spring Boot para a API, com MongoDB como banco de dados.
+Desenvolver um aplicativo para registro de ponto do funcionário, efetuando o seu login pelo meio padrão com o seu email e a sua senha ou utilizando a sua digital e/ou reconhecimento facial via biometria. Além disso, para ele efetuar o seu registro ele precisará estar até 100 metros do local do seu trabalho, caso contrário o registro não será possível e ele receberá uma notificação no aplicativo.
 
 **Por Que Este Projeto?**
-A nossa empresa chamada Hostly, dedicada a inovar no campo da gestão de serviços, está em processo de criação de um sistema de gerenciamento de reservas de hotel. Este projeto visa proporcionar uma experiência eficiente tanto para os funcionários quanto para os hóspedes, facilitando o processo de reserva e gerenciamento dos quartos. Com o objetivo de transformar a forma como os hotéis gerenciam suas reservas e atendem aos hóspedes, estamos desenvolvendo uma solução tecnológica avançada que ofereça uma interface amigável e funcionalidades robustas.
+A nossa empresa chamada FastPoint, dedicada a inovar no campo da gestão de serviços, está em processo de criação de um aplicativo de registro de ponto do funcionário com geolocalização e biometria. Este projeto visa proporcionar uma experiência eficiente e ágil para o funcionário, facilitando o processo de registro e autenticação por meio da sua biometria. Com o objetivo de transformar a forma como a nossa empresa registra o ponto do funcionário, estamos desenvolvendo uma solução tecnológica avançada que ofereça uma interface amigável e funcionalidades robustas.
 <br><br><br><br><br>
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Escopo" alt="Typing SVG" /></a>
 
-O sistema de gerenciamento de reservas será desenvolvido utilizando Spring Boot para a API e Java Swing para a interface administrativa, com MongoDB como banco de dados. A solução visa proporcionar uma experiência de usuário intuitiva, com recursos para cadastro e gerenciamento de quartos, reservas, emissão de contratos e relatórios financeiros.
+O registro de ponto será desenvolvido utilizando o framework Flutter, com Firebase para nossa plataforma de serviços de backend. A solução visa proporcionar uma experiência para o funcionário eficiente e intuitiva, com recursos para autenticação via biometria digital e/ou facial, além da sua geolocalização em tempo real para o registro do ponto.
 <br><br><br><br><br>
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Recursos" alt="Typing SVG"/></a>
