@@ -1,7 +1,7 @@
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Contexto do Projeto" alt="Typing SVG" /></a>
 ### Contexto Inicial
-**Gerenciamento de Reservas de Hotel:**
-O sistema será um gerenciamento de reservas de hotel, no qual o administrador poderá cadastrar quartos, gerenciar reservas, buscar hóspedes no sistema e acessar extratos de emissão fiscal, enquanto que o hóspede poderá solicitar a sua reserva em quartos disponíveis e efetuar o pagamento.
+**App de Registro de Ponto com Geolocalização e Biometria:**
+Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando estiver a até 100 metros do local de trabalho. A autenticação pode ser feita via NIF e senha ou utilizando reconhecimento facial via biometria.
 
 <br>
 <br>
@@ -11,10 +11,10 @@ O sistema será um gerenciamento de reservas de hotel, no qual o administrador p
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/API-FAZENDO-red?style=for-the-badge" alt="backend" />
+   <img src="https://img.shields.io/badge/Backend-FAZENDO-red?style=for-the-badge" alt="backend" />
   <img src="https://img.shields.io/badge/Documentação-FAZENDO-red?style=for-the-badge" alt="documentação" />
   <img src="https://img.shields.io/badge/Manual-FAZENDO-red?style=for-the-badge" alt="mobile" />
-  <img src="https://img.shields.io/badge/Interface-FAZENDO-red?style=for-the-badge" alt="site" />
+  <img src="https://img.shields.io/badge/Frontend-FAZENDO-red?style=for-the-badge" alt="site" />
 </p>
 <hr>
 <br>
