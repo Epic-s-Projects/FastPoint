@@ -1,4 +1,4 @@
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Contexto do Projeto" alt="Typing SVG" /></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Contexto do Projeto" alt="Typing SVG" /></a>
 ### Contexto Inicial
 **App de Registro de Ponto com Geolocalização e Biometria:**
 Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando estiver a até 100 metros do local de trabalho. A autenticação pode ser feita via NIF e senha ou utilizando reconhecimento facial via biometria.
@@ -20,7 +20,7 @@ Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando
 <br>
 <br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Registro de Ponto" alt="Typing SVG" /></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Registro de Ponto" alt="Typing SVG" /></a>
 
 ## Apresentação do Projeto: Desenvolvimento de Aplicativo sobre Registro de Ponto
 
@@ -31,12 +31,12 @@ Desenvolver um aplicativo para registro de ponto do funcionário, efetuando o se
 **Por Que Este Projeto?**
 A nossa empresa chamada FastPoint, dedicada a inovar no campo da gestão de serviços, está em processo de criação de um aplicativo de registro de ponto do funcionário com geolocalização e biometria. Este projeto visa proporcionar uma experiência eficiente e ágil para o funcionário, facilitando o processo de registro e autenticação por meio da sua biometria. Com o objetivo de transformar a forma como a nossa empresa registra o ponto do funcionário, estamos desenvolvendo uma solução tecnológica avançada que ofereça uma interface amigável e funcionalidades robustas.
 <br><br><br><br><br>
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Escopo" alt="Typing SVG" /></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Escopo" alt="Typing SVG" /></a>
 
 O registro de ponto será desenvolvido utilizando o framework Flutter, com Firebase para nossa plataforma de serviços de backend. A solução visa proporcionar uma experiência para o funcionário eficiente e intuitiva, com recursos para autenticação via biometria digital e/ou facial, além da sua geolocalização em tempo real para o registro do ponto.
 <br><br><br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=38F77CFF&center=false&vCenter=false&repeat=false&width=435&lines=Recursos" alt="Typing SVG"/></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Recursos" alt="Typing SVG"/></a>
 
 **Equipe:**
 - 1 Gerente de Projetos
