@@ -31,8 +31,13 @@
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
+<<<<<<<< HEAD:teste_geolocalizacao/android/app/src/main/AndroidManifest.xml
                 android:resource="@style/NormalTheme" />
 
+========
+                android:resource="@style/NormalTheme"
+                />
+>>>>>>>> 524d0cd441fadb7f83152ffa38c768debc66dbc8:exemplo_firebase/android/app/src/main/AndroidManifest.xml
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
