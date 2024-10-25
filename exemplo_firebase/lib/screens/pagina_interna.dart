@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 bottom: Radius.circular(60),
               ),
             ),
-            padding: EdgeInsets.symmetric(vertical: 40),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
                 Padding(
@@ -71,12 +71,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.more_vert, color: Colors.white),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.more_horiz, color: Colors.white),
+                          onPressed: () => _logout(context),
+                          ),
+                        ]
+                      ),
+
+
                       Row(
                         children: [
                           IconButton(
                             icon: Icon(Icons.exit_to_app, color: Colors.white),
-                            onPressed: () => _logout(context),
+                              onPressed: () => _logout(context),
                           ),
                           Icon(Icons.map_outlined, color: Colors.white),
                         ],
@@ -106,29 +115,42 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
                 // CircleAvatar com a imagem do usuário
                 CircleAvatar(
-                  radius: 40,
+                  radius: 90,
                   backgroundColor: Colors.white,
-                  backgroundImage: widget.imageUrl.isNotEmpty
-                      ? NetworkImage(widget.imageUrl)
-                      : null,
-                  child: widget.imageUrl.isEmpty
-                      ? Icon(Icons.person, size: 120, color: Color(0xFF7B2CBF))
-                      : null,
+                  child: widget.imageUrl.isNotEmpty
+                      ? ClipOval(
+                    child: Image.network(
+                      widget.imageUrl,
+                      fit: BoxFit.cover, // Ajusta a imagem ao tamanho do CircleAvatar
+                      width: MediaQuery.of(context).size.width * 1, // Dobro do valor do radius
+                      height: MediaQuery.of(context).size.width * 1,
+                    ),
+                  )
+                      : Icon(Icons.person, size: 120, color: Color(0xFF7B2CBF)),
                 ),
-                SizedBox(height: 8),
-
-                Text(
-                  widget.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 20),
+                SizedBox(height: 16),
               ],
             ),
           ),
+          SizedBox(height: 16),
+          Center(
+            child: Text(
+              widget.name,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8.0), // Espaçamento em torno da linha
+            height: 2,
+            width: 300,
+            color: Color.fromRGBO(25, 25, 25, 0.2)
+          ),
+          SizedBox(height: 8),
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(16),
@@ -239,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(dia, style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-              Text(mes, style: TextStyle(color: Colors.grey)),
+              Text(mes, style: TextStyle(fontWeight: FontWeight.w400)),
             ],
           ),
         ],
