@@ -131,22 +131,22 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
       <tr align=center>
         <td>
           <a href="https://github.com/Edu1Sinico">
-            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Edu1Sinico">
+            <img width="250" height="200" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Edu1Sinico">
           </a>
         </td>
         <td>
           <a href="https://github.com/JoaovlLima">
-            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/JoaovlLima">
+            <img width="250" height="200" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/JoaovlLima">
           </a>
         </td>
          <td>
           <a href="https://github.com/rafaelmoura23">
-            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/rafaelmoura23">
+            <img width="250" height="200" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/rafaelmoura23">
           </a>
         </td>
          <td>
           <a href="https://github.com/epicestudar">
-            <img width="250" height="250" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/epicestudar">
+            <img width="250" height="200" style="border-radius: 50%;" src="https://avatars.githubusercontent.com/epicestudar">
           </a>
         </td>
       </tr>
