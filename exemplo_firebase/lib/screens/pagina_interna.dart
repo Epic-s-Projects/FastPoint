@@ -149,10 +149,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               right: 16,  // Ajusta para manter o botão à direita
               bottom: 90,
               child: FloatingActionButton(
+                mini: true,
                 onPressed: () {
                   _authService.baterPonto();
                 },
-                child: Icon(Icons.location_on),
+                child: Icon(Icons.fingerprint_outlined, color: Colors.white),
                 backgroundColor: Colors.purple,
               ),
 
