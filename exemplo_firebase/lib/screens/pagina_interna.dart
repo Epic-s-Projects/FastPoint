@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         children: [
                           IconButton(
                             icon: Icon(Icons.more_horiz, color: Colors.white),
-                          onPressed: () => _logout(context),
+                          onPressed: () {},
                           ),
                         ]
                       ),
@@ -147,8 +147,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           Container(
             margin: EdgeInsets.symmetric(vertical: 8.0), // Espaçamento em torno da linha
             height: 2,
-            width: 300,
-            color: Color.fromRGBO(25, 25, 25, 0.2)
+            width: 330,
+            color: Color.fromRGBO(25, 25, 25, 0.2),
           ),
           SizedBox(height: 8),
           Expanded(
@@ -171,13 +171,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               right: 16,  // Ajusta para manter o botão à direita
               bottom: 90,
               child: FloatingActionButton(
+                mini: true,
                 onPressed: () {
                   _authService.baterPonto();
                 },
-                child: Icon(Icons.location_on),
+                child: Icon(Icons.password, color: Colors.white),
                 backgroundColor: Colors.purple,
               ),
-
             ),
             Positioned(
               right: 16,
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.person, color: Colors.white),
+                child: Icon(Icons.face, color: Colors.white),
               ),
             ),
             Positioned(
@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 mini: true,
                 onPressed: () {},
                 backgroundColor: Colors.purple,
-                child: Icon(Icons.code, color: Colors.white),
+                child: Icon(Icons.fingerprint, color: Colors.white),
               ),
             ),
           ],
