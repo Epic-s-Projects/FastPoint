@@ -5,25 +5,31 @@ import 'package:geolocator/geolocator.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance; // Instância do Firestore
+  final FirebaseFirestore _firestore = FirebaseFirestore
+      .instance; // Instância do Firestore
 
   // Login do usuário com email e senha e retorna os dados do Firestore
-  Future<Map<String, dynamic>?> signInWithEmail(String email, String password) async {
+  Future<Map<String, dynamic>?> signInWithEmail(String email,
+      String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
 
       if (user != null) {
         // Busca os dados adicionais no Firestore
-        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(
+            user.uid).get();
 
         if (userDoc.exists) {
           // Converte os dados do documento para Map e inclui o image_url
-          Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+          Map<String, dynamic> userData = userDoc.data() as Map<String,
+              dynamic>;
 
           return {
             'name': userData['name'],
-            'image_url': userData['image_url'], // Adiciona o campo image_url aqui
+            'image_url': userData['image_url'],
+            // Adiciona o campo image_url aqui
           };
         } else {
           print('Usuário não encontrado no Firestore');
@@ -57,8 +63,26 @@ class AuthService {
         return;
       }
 
+      // Verifica e solicita permissão de localização
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          print('Permissão de localização negada');
+          return;
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        print('Permissão de localização negada permanentemente');
+        return;
+      }
+
+      // Configurações de localização
+      LocationSettings locationSettings = LocationSettings();
+
       // Obtém a localização do usuário
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition(
+          locationSettings: locationSettings);
 
       // Cria um documento com timestamp e geolocalização na subcoleção 'marcacao_pontos'
       await FirebaseFirestore.instance
@@ -72,7 +96,6 @@ class AuthService {
       });
 
       print("Ponto registrado com sucesso!");
-
     } catch (e) {
       print("Erro ao bater ponto: $e");
     }
