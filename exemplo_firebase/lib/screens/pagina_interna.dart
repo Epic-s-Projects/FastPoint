@@ -54,11 +54,14 @@ class _HomeScreenState extends State<HomeScreen>
   Widget buildCard(Map<String, dynamic> data) {
     print("Dados recebidos: $data");
     DateTime timestamp = data['timestamp'].toDate();
-    String formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(timestamp);
+    String formattedDay = DateFormat('dd').format(timestamp);
+    String formattedMonth = DateFormat('MMMM').format(timestamp);
+    String formattedTime = DateFormat('HH:mm').format(timestamp);
     String latitude = data['latitude']?.toString() ?? '-';
     String longitude = data['longitude']?.toString() ?? '-';
 
     return Container(
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -71,17 +74,40 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text("Data e Hora: $formattedDate",
-              style: TextStyle(color: Colors.purple, fontSize: 16)),
-          SizedBox(height: 8),
-          Text("Latitude: $latitude",
-              style: TextStyle(color: Colors.purple, fontSize: 16)),
-          Text("Longitude: $longitude",
-              style: TextStyle(color: Colors.purple, fontSize: 16)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.access_time, color: Colors.purple),
+                  SizedBox(width: 8),
+                  Text("Entrada: $formattedTime",
+                      style: TextStyle(color: Colors.purple, fontSize: 16)),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.exit_to_app, color: Colors.purple),
+                  SizedBox(width: 8),
+                  Text("Saída: $formattedTime",
+                      style: TextStyle(color: Colors.purple, fontSize: 16)),
+                ],
+              ),
+            ],
+          ),
+          Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(formattedDay,
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+              Text(formattedMonth,
+                  style: TextStyle(fontWeight: FontWeight.w400))
+            ],
+          ),
         ],
       ),
     );
@@ -204,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           SizedBox(height: 8),
           // Colocar o Card
+
           Expanded(
               child: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -229,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen>
                 },
               );
             },
-          )),
+          ))
         ],
       ),
       floatingActionButton: Stack(
