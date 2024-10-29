@@ -65,7 +65,7 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 
 1.2. **Primeiro Login:**
    - Ao acessar pela primeira vez, insira seu **NIF e senha** ou configure sua biometria facial/digital para um login mais rápido e seguro.
-
+<br><br>
 ### 2. Autenticação
 
 #### O FastPoint oferece duas opções de autenticação:
@@ -75,7 +75,7 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 
 2.2 **Reconhecimento facial ou digital:**
    - Utilize biometria para maior agilidade e segurança.
-
+<br><br>
 ### 3. Registro de Ponto
 
 #### Condições para registro:
@@ -88,12 +88,11 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
    - Clique no botão **"Registrar Ponto"**.
    - Verifique a confirmação do registro na tela.
 
-
+<br><br>
 ### 4. Notificações e Falhas no Registro
 
 #### Caso esteja fora do limite de 100 metros, o aplicativo exibirá uma notificação:
 **"Não foi possível registrar o ponto. Você está fora do limite permitido."**
-
 
 
 <br><br><br><br><br>
