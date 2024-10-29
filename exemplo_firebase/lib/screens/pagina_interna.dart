@@ -16,11 +16,12 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   bool isExpanded = false;
   final AuthService _authService = AuthService();
   String? userId = FirebaseAuth.instance.currentUser?.uid;
+
   // Variáveis para data e hora
   String _timeString = '';
   String _dateString = '';
@@ -123,16 +124,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(Icons.more_horiz, color: Colors.white),
-                              onPressed: () {},
-                            ),
-                          ]
-                      ),
-
-
+                      Row(children: [
+                        IconButton(
+                          icon: Icon(Icons.more_horiz, color: Colors.white),
+                          onPressed: () {},
+                        ),
+                      ]),
                       Row(
                         children: [
                           IconButton(
@@ -171,21 +168,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   backgroundColor: Colors.white,
                   child: widget.imageUrl.isNotEmpty
                       ? ClipOval(
-                    child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
-                      // Ajusta a imagem ao tamanho do CircleAvatar
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 1,
-                      // Dobro do valor do radius
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 1,
-                    ),
-                  )
+                          child: Image.network(
+                            widget.imageUrl,
+                            fit: BoxFit.cover,
+                            // Ajusta a imagem ao tamanho do CircleAvatar
+                            width: MediaQuery.of(context).size.width * 1,
+                            // Dobro do valor do radius
+                            height: MediaQuery.of(context).size.width * 1,
+                          ),
+                        )
                       : Icon(Icons.person, size: 120, color: Color(0xFF7B2CBF)),
                 ),
                 SizedBox(height: 16),
@@ -214,36 +205,35 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           SizedBox(height: 8),
           // Colocar o Card
           Expanded(
-              child:StreamBuilder(
-        stream: FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('marcacao_pontos')
-        .snapshots(),
-    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-    if (snapshot.hasError) {
-    return Center(child: Text("Erro ao carregar dados: ${snapshot.error}"));
-    }
-    if (!snapshot.hasData) {
-    return Center(child: CircularProgressIndicator());
-    }
+              child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(userId)
+                .collection('marcacao_pontos')
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                    child: Text("Erro ao carregar dados: ${snapshot.error}"));
+              }
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-    var docs = snapshot.data!.docs;
-    return ListView.builder(
-    itemCount: docs.length,
-    itemBuilder: (context, index) {
-    var data = docs[index].data() as Map<String, dynamic>;
-    return buildCard(data);
-    },
-    );
-    },
-    )
-    ),
+              var docs = snapshot.data!.docs;
+              return ListView.builder(
+                itemCount: docs.length,
+                itemBuilder: (context, index) {
+                  var data = docs[index].data() as Map<String, dynamic>;
+                  return buildCard(data);
+                },
+              );
+            },
+          )),
         ],
       ),
       floatingActionButton: Stack(
         alignment: Alignment.bottomRight,
-        // Use Alignment.bottomRight para manter o padrão de FAB
         children: [
           if (isExpanded) ...[
             Positioned(
@@ -289,13 +279,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 });
               },
               backgroundColor: Colors.purple,
-              child: Icon(
-                  isExpanded ? Icons.close : Icons.menu, color: Colors.white),
+              child: Icon(isExpanded ? Icons.close : Icons.menu,
+                  color: Colors.white),
             ),
           ),
         ],
       ),
-
     );
   }
 }
