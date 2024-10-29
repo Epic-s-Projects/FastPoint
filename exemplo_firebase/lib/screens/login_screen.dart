@@ -171,7 +171,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               CircleAvatar(
                 radius: 50,
-                backgroundColor: Colors.white,
                 child: Image.asset(
                   'assets/logo.png', // Adicione o caminho do seu logo
                   width: 150,
