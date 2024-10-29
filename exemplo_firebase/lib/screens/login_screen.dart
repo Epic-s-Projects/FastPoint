@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:exemplo_firebase/service/auth_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Pacote para armazenamento seguro
 import 'package:local_auth/local_auth.dart'; // Pacote para biometria
 import 'pagina_interna.dart'; // Importe a página interna
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
