@@ -11,10 +11,10 @@ Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando
 </p>
 
 <p align="center">
-   <img src="https://img.shields.io/badge/Backend-FAZENDO-red?style=for-the-badge" alt="backend" />
+   <img src="https://img.shields.io/badge/Backend-FEITO-blue?style=for-the-badge" alt="backend" />
   <img src="https://img.shields.io/badge/Documentação-FEITO-blue?style=for-the-badge" alt="documentação" />
   <img src="https://img.shields.io/badge/Manual-FEITO-blue?style=for-the-badge" alt="mobile" />
-  <img src="https://img.shields.io/badge/Frontend-FAZENDO-red?style=for-the-badge" alt="site" />
+  <img src="https://img.shields.io/badge/Frontend-FEITO-blue?style=for-the-badge" alt="site" />
 </p>
 <hr>
 <br>
