@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:exemplo_firebase/screens/map_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String name;
@@ -214,7 +215,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     IconButton(icon: Icon(Icons.exit_to_app, color: Colors.white), onPressed: () => _logout(context)),
-                    Icon(Icons.map_outlined, color: Colors.white),
+                    IconButton(
+                      icon: Icon(Icons.map_outlined, color: Colors.white),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MapScreen(
+                              latitude: latitudePlace,
+                              longitude: longitudePlace,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ],
