@@ -1,43 +1,47 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:intl/intl.dart';
+import 'package:local_auth/local_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore
-      .instance; // Instância do Firestore
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final LocalAuthentication _localAuth = LocalAuthentication();
 
-  // Login do usuário com email e senha e retorna os dados do Firestore
+  // Autenticação biométrica
+  Future<bool> _authenticateWithBiometrics() async {
+    try {
+      if (!await _localAuth.canCheckBiometrics) {
+        print("Biometria não disponível no dispositivo.");
+        return false;
+      }
+      return await _localAuth.authenticate(
+        localizedReason: 'Por favor, autentique-se para bater o ponto',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } catch (e) {
+      print("Erro na autenticação biométrica: $e");
+      return false;
+    }
+  }
+
+  // Login com email e senha, retornando os dados do Firestore
   Future<Map<String, dynamic>?> signInWithEmail(String email,
       String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      if (user == null) return null;
 
-      if (user != null) {
-        // Busca os dados adicionais no Firestore
-        DocumentSnapshot userDoc = await _firestore.collection('users').doc(
-            user.uid).get();
-
-        if (userDoc.exists) {
-          // Converte os dados do documento para Map e inclui o image_url
-          Map<String, dynamic> userData = userDoc.data() as Map<String,
-              dynamic>;
-
-          return {
-            'name': userData['name'],
-            'image_url': userData['image_url'],
-            // Adiciona o campo image_url aqui
-          };
-        } else {
-          print('Usuário não encontrado no Firestore');
-          return null;
-        }
-      } else {
-        return null;
-      }
+      // Busca dados adicionais do Firestore
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(
+          user.uid).get();
+      return userDoc.exists ? userDoc.data() as Map<String, dynamic> : null;
     } catch (e) {
       print('Erro ao realizar login: $e');
       return null;
@@ -47,57 +51,98 @@ class AuthService {
   // Logout do usuário
   Future<void> signOut() async {
     try {
-      return await _auth.signOut();
+      await _auth.signOut();
     } catch (e) {
       print('Erro ao realizar logout: $e');
-      return null;
     }
   }
 
-  Future<void> baterPonto() async {
+  Future<bool> baterPonto(String authType, {String? password}) async {
+    const double latitudeLocal = -22.570691238055606;
+    const double longitudeLocal = -47.40385410357194;
+    const double raioPermitido = 100.0;
+
     try {
-      // Obtém o UID do usuário autenticado
-      User? user = FirebaseAuth.instance.currentUser;
+      // Autenticação condicional
+      User? user = _auth.currentUser;
       if (user == null) {
         print("Usuário não autenticado");
-        return;
+        return false;
+      }
+
+      // Realiza autenticação com base no tipo
+      bool isAuthenticated = false;
+      if (authType == 'fingerprint') {
+        isAuthenticated = await _authenticateWithBiometrics();
+      } else if (authType == 'password' && password != null) {
+        AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: password,
+        );
+        await user.reauthenticateWithCredential(credential);
+        isAuthenticated = true;
+      }
+
+      if (!isAuthenticated) {
+        print("Falha na autenticação.");
+        return false;
       }
 
       // Verifica e solicita permissão de localização
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
+        if (permission == LocationPermission.denied ||
+            permission == LocationPermission.deniedForever) {
           print('Permissão de localização negada');
-          return;
+          return false;
         }
       }
-      if (permission == LocationPermission.deniedForever) {
-        print('Permissão de localização negada permanentemente');
-        return;
-      }
-
-      // Configurações de localização
-      LocationSettings locationSettings = LocationSettings();
 
       // Obtém a localização do usuário
       Position position = await Geolocator.getCurrentPosition(
-          locationSettings: locationSettings);
+          desiredAccuracy: LocationAccuracy.high);
+      double distance = Geolocator.distanceBetween(
+          position.latitude, position.longitude, latitudeLocal, longitudeLocal);
 
-      // Cria um documento com timestamp e geolocalização na subcoleção 'marcacao_pontos'
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('marcacao_pontos')
-          .add({
+      // Verifica se a distância está dentro do raio permitido
+      if (distance > raioPermitido) {
+        print("Você não está no local permitido para bater o ponto.");
+        return false;
+      }
+
+      DateTime now = DateTime.now();
+      String today = DateFormat('yyyy-MM-dd').format(now);
+
+      // Referência da coleção de pontos do usuário
+      var marcacaoRef = _firestore.collection('users').doc(user.uid).collection(
+          'marcacao_pontos');
+
+      // Consulta para pontos do dia
+      var marcacoesHoje = await marcacaoRef.where('date', isEqualTo: today)
+          .get();
+      if (marcacoesHoje.docs.length >= 2) {
+        print("O usuário já registrou dois pontos hoje.");
+        return false;
+      }
+
+      // Determina se é ponto de entrada ou saída
+      String tipoPonto = marcacoesHoje.docs.isEmpty ? 'entrada' : 'saida';
+
+      // Cria um documento com timestamp, localização e tipo de ponto no Firestore
+      await marcacaoRef.add({
         'timestamp': FieldValue.serverTimestamp(),
         'latitude': position.latitude,
         'longitude': position.longitude,
+        'tipo': tipoPonto,
+        'date': today,
       });
 
-      print("Ponto registrado com sucesso!");
+      print("Ponto de $tipoPonto registrado com sucesso!");
+      return true; // Registro bem-sucedido
     } catch (e) {
       print("Erro ao bater ponto: $e");
+      return false;
     }
   }
 }

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:exemplo_firebase/service/auth_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; // Pacote para armazenamento seguro
 import 'package:local_auth/local_auth.dart'; // Pacote para biometria
 import 'pagina_interna.dart'; // Importe a página interna
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -108,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Função para realizar o login com email e senha e salvar as credenciais
-  // Função para realizar o login com email e senha e salvar as credenciais
   void _login() async {
     print('Iniciando login com email e senha...');
     Map<String, dynamic>? userData = await _authService.signInWithEmail(
@@ -158,8 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.png'), // Adicione o caminho da sua imagem de fundo
+            fit: BoxFit.cover, // Ajusta a imagem para cobrir todo o container
+          ),
           gradient: LinearGradient(
-            colors: [Color(0xFF7B2CBF), Color(0xFFD8B4FE)], // Degradê roxo
+            colors: [Color(0xFF7B2CBF).withOpacity(0.6), Color(0xFFD8B4FE).withOpacity(0.6)], // Degradê roxo com opacidade
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -169,25 +169,30 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Aumentando o espaço acima do logo
+              SizedBox(height: 20),
               CircleAvatar(
-                radius: 50,
+                radius: 70, // Aumentando o tamanho do logo
+                backgroundColor: Colors.transparent, // Fundo transparente
                 child: Image.asset(
                   'assets/logo.png', // Adicione o caminho do seu logo
-                  width: 150,
-                  height: 150,
+                  width: 200, // Ajuste o tamanho do logo conforme necessário
+                  height: 200,
                 ),
               ),
               SizedBox(height: 24),
               Text(
                 'FastPoint',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'BalooBhaijaan',
+                  letterSpacing: 1.0
                 ),
               ),
               SizedBox(height: 32),
+
               TextField(
                 controller: _emailController,
                 style: TextStyle(color: Colors.white),
@@ -226,6 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
+                  elevation: 10, // Adicionando sombra ao botão
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
@@ -235,25 +241,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 70),
+
+              // Mostre a imagem da biometria com degradê, se disponível
+              if (_isBiometricAvailable)
+                GestureDetector(
+                  onTap: _authenticateWithBiometrics,
+                  child: Image.asset(
+                    'assets/fingerprint.png', // Substitua pelo caminho da sua imagem
+                    width: 80, // Ajuste o tamanho conforme necessário
+                    height: 80,
+                  ),
+                ),
               Text(
-                'Esqueceu sua senha?',
+                'Acesse com a sua Digital',
                 style: TextStyle(color: Colors.white),
               ),
-              SizedBox(height: 32),
-
-              // Mostre o ícone da biometria, se disponível
-              if (_isBiometricAvailable)
-                IconButton(
-                  icon: Icon(Icons.fingerprint, size: 60, color: Colors.white),
-                  onPressed: _authenticateWithBiometrics,
-                ),
             ],
           ),
         ),
       ),
     );
   }
+
+
 
   // Função para realizar o login com email e senha usando as credenciais salvas
   Future<void> _signInWithEmailAndPassword(String email, String password) async {
