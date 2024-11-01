@@ -153,30 +153,30 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background.png'), // Adicione o caminho da sua imagem de fundo
-            fit: BoxFit.cover, // Ajusta a imagem para cobrir todo o container
+            image: AssetImage('assets/background.png'),
+            fit: BoxFit.cover,
           ),
           gradient: LinearGradient(
-            colors: [Color(0xFF7B2CBF).withOpacity(0.6), Color(0xFFD8B4FE).withOpacity(0.6)], // Degradê roxo com opacidade
+            colors: [Color(0xFF7B2CBF).withOpacity(0.6), Color(0xFFD8B4FE).withOpacity(0.6)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(48.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Aumentando o espaço acima do logo
               SizedBox(height: 20),
               CircleAvatar(
-                radius: 70, // Aumentando o tamanho do logo
-                backgroundColor: Colors.transparent, // Fundo transparente
+                radius: 70,
+                backgroundColor: Colors.transparent,
                 child: Image.asset(
-                  'assets/logo.png', // Adicione o caminho do seu logo
-                  width: 200, // Ajuste o tamanho do logo conforme necessário
+                  'assets/logo.png',
+                  width: 200,
                   height: 200,
                 ),
               ),
@@ -188,11 +188,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'BalooBhaijaan',
-                  letterSpacing: 1.0
+                  letterSpacing: 1.0,
                 ),
               ),
               SizedBox(height: 32),
-
               TextField(
                 controller: _emailController,
                 style: TextStyle(color: Colors.white),
@@ -225,13 +224,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 24),
               ElevatedButton(
-                onPressed: _login, // Chama o método de login
+                onPressed: _login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  elevation: 10, // Adicionando sombra ao botão
+                  elevation: 10,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
@@ -242,14 +241,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 70),
-
-              // Mostre a imagem da biometria com degradê, se disponível
               if (_isBiometricAvailable)
                 GestureDetector(
                   onTap: _authenticateWithBiometrics,
                   child: Image.asset(
-                    'assets/fingerprint.png', // Substitua pelo caminho da sua imagem
-                    width: 80, // Ajuste o tamanho conforme necessário
+                    'assets/fingerprint.png',
+                    width: 80,
                     height: 80,
                   ),
                 ),
