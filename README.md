@@ -61,7 +61,7 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 ### 1. Acesso ao Aplicativo
 
 1.1 **Instalação:**
-   - Entre no aplicativo pelol seu dispositivo.
+   - Entre no aplicativo pelo seu dispositivo.
 
 1.2. **Primeiro Login:**
    - Ao acessar pela primeira vez, insira seu **NIF e senha** ou configure sua biometria facial/digital para um login mais rápido e seguro.
