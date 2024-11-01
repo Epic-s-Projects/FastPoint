@@ -36,23 +36,27 @@ A nossa empresa chamada FastPoint, dedicada a inovar no campo da gestão de serv
 O registro de ponto será desenvolvido utilizando o framework Flutter, com Firebase para nossa plataforma de serviços de backend. A solução visa proporcionar uma experiência para o funcionário eficiente e intuitiva, com recursos para autenticação via biometria digital e/ou facial, além da sua geolocalização em tempo real para o registro do ponto.
 <br><br><br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Recursos" alt="Typing SVG"/></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Ferramentas Utilizadas" alt="Typing SVG"/></a>
 
-**Equipe:**
-- 1 Gerente de Projetos
-- 2 Desenvolvedores Mobile 
-- 1 Administrador de Banco de Dados
-- 1 Especialista em Segurança
+**Firebase:**
+- Authentication
+- Cloud Firestore
 
-**Tecnologias:**
-- **Flutter** (Desenvolvimento Mobile)
-- **Firebase** (Plataforma de Serviços Backend)
-- **Git/GitHub** (Controle de Versão)
+**Framework Flutter (dependências):**
+- **cloud_firestore** (relacionada ao firebase)
+- **firebase_auth** (relacionado ao firebase)
+- **firebase_core** (relacionado ao firebase)
+- **firebase_messaging** (relacionado ao firebase)
+- **local_auth** (autenticação via biometria)
+- **flutter_secure_storage** (autenticação via biometria)
+- **geolocator** (localização)
+- **flutter_map** (mapa visual)
 
-**Ferramentas de Gestão:**
-- Trello para gerenciamento de tarefas
-- Slack para comunicação interna
+**Outros:**
+- Android Studio para desenvolvimento
+- Github para versionamento
 - Figma para montagem dos protótipos
+
 
 <br><br><br><br><br>
 
