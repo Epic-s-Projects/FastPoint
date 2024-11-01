@@ -60,7 +60,7 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 
 ### 1. Acesso ao Aplicativo
 
-1.1 **Instalação:**
+1.1 **Entrada:**
    - Entre no aplicativo pelo seu dispositivo.
 
 1.2. **Primeiro Login:**
