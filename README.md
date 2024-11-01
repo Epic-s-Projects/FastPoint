@@ -59,6 +59,29 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 
 <br><br><br><br><br>
 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Diagrama de Classe" alt="Typing SVG" />
+
+```mermaid
+classDiagram
+    class Usuario {
+        - String nome
+        - String email
+        - String senha
+        - String imagem_url
+    }
+
+    class MarcacaoPontos {
+        - Date data
+        - double latitude
+        - double longitude
+        - long timestamp
+        - String tipo
+    }
+
+```
+
+<br><br><br><br><br>
+
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Diagrama de Fluxo" alt="Typing SVG" />
 
 ```mermaid
@@ -85,6 +108,7 @@ flowchart TD
 
 
 ```
+
 <br><br><br><br><br>
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Usuário" alt="Typing SVG" />
