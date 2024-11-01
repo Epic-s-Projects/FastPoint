@@ -1,7 +1,7 @@
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Contexto do Projeto" alt="Typing SVG" /></a>
 ### Contexto Inicial
 **App de Registro de Ponto com Geolocalização e Biometria:**
-Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando estiver a até 100 metros do local de trabalho. A autenticação pode ser feita via NIF e senha ou utilizando reconhecimento facial via biometria.
+Um aplicativo que permite ao funcionário registrar seu ponto de trabalho quando estiver a até 100 metros do local de trabalho. A autenticação pode ser feita via NIF e senha ou utilizando reconhecimento digital e/ou facial via biometria.
 
 <br>
 <br>
@@ -36,32 +36,92 @@ A nossa empresa chamada FastPoint, dedicada a inovar no campo da gestão de serv
 O registro de ponto será desenvolvido utilizando o framework Flutter, com Firebase para nossa plataforma de serviços de backend. A solução visa proporcionar uma experiência para o funcionário eficiente e intuitiva, com recursos para autenticação via biometria digital e/ou facial, além da sua geolocalização em tempo real para o registro do ponto.
 <br><br><br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Recursos" alt="Typing SVG"/></a>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Ferramentas Utilizadas" alt="Typing SVG"/></a>
 
-**Equipe:**
-- 1 Gerente de Projetos
-- 2 Desenvolvedores Mobile 
-- 1 Administrador de Banco de Dados
-- 1 Especialista em Segurança
+**Firebase:**
+- Authentication
+- Cloud Firestore
 
-**Tecnologias:**
-- **Flutter** (Desenvolvimento Mobile)
-- **Firebase** (Plataforma de Serviços Backend)
-- **Git/GitHub** (Controle de Versão)
+**Framework Flutter (dependências):**
+- **cloud_firestore** (relacionada ao firebase)
+- **firebase_auth** (relacionado ao firebase)
+- **firebase_core** (relacionado ao firebase)
+- **firebase_messaging** (relacionado ao firebase)
+- **local_auth** (autenticação via biometria)
+- **flutter_secure_storage** (autenticação via biometria)
+- **geolocator** (localização)
+- **flutter_map** (mapa visual)
 
-**Ferramentas de Gestão:**
-- Trello para gerenciamento de tarefas
-- Slack para comunicação interna
+**Outros:**
+- Android Studio para desenvolvimento
+- Github para versionamento
 - Figma para montagem dos protótipos
 
 <br><br><br><br><br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Funcionário" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Diagrama de Classe" alt="Typing SVG" />
+
+```mermaid
+classDiagram
+    class Usuario {
+        - String nome
+        - String email
+        - String senha
+        - String imagem_url
+    }
+
+    class MarcacaoPontos {
+        - Date data
+        - double latitude
+        - double longitude
+        - long timestamp
+        - String tipo
+    }
+
+```
+
+<br><br><br><br><br>
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Diagrama de Fluxo" alt="Typing SVG" />
+
+```mermaid
+flowchart TD
+    A[Início] --> B[Abrir App]
+    B --> C{Primeiro Login}
+    
+    C -->|NIF e Senha| D[Inserir NIF e Senha]
+    C -->|Biometria Facial ou Digital| E[Configurar Biometria]
+    
+    D --> G[Acessar Sistema]
+    E --> G[Acessar Sistema]
+
+    G --> H{Próximo Registro de Ponto?}
+    
+    H -->|Sim| I{Condição: Raio de 100 metros}
+    
+    I -->|Dentro do Raio| J[Registrar Ponto]
+    J --> K[Confirmação de Registro]
+    
+    I -->|Fora do Raio| L[Exibir Notificação]
+    
+    H -->|Não| M[Encerrar App]
+
+
+```
+
+<br><br><br><br><br>
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Usuário" alt="Typing SVG" />
+
+### - Requisitos:
+
+- Conexão com a Internet
+- Dispositivo com funcionalidade biométrica e facial
 
 ### 1. Acesso ao Aplicativo
 
-1.1 **Instalação:**
-   - Baixe o aplicativo na **Google Play Store** ou na **App Store** e instale-o no seu dispositivo.
+1.1 **Entrada:**
+   - Entre no aplicativo pelo seu dispositivo.
 
 1.2. **Primeiro Login:**
    - Ao acessar pela primeira vez, insira seu **NIF e senha** ou configure sua biometria facial/digital para um login mais rápido e seguro.
