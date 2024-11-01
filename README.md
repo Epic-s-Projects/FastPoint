@@ -57,7 +57,34 @@ O registro de ponto será desenvolvido utilizando o framework Flutter, com Fireb
 - Github para versionamento
 - Figma para montagem dos protótipos
 
+<br><br><br><br><br>
 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Diagrama de Fluxo" alt="Typing SVG" />
+
+```mermaid
+flowchart TD
+    A[Início] --> B[Abrir App]
+    B --> C{Primeiro Login}
+    
+    C -->|NIF e Senha| D[Inserir NIF e Senha]
+    C -->|Biometria Facial ou Digital| E[Configurar Biometria]
+    
+    D --> G[Acessar Sistema]
+    E --> G[Acessar Sistema]
+
+    G --> H{Próximo Registro de Ponto?}
+    
+    H -->|Sim| I{Condição: Raio de 100 metros}
+    
+    I -->|Dentro do Raio| J[Registrar Ponto]
+    J --> K[Confirmação de Registro]
+    
+    I -->|Fora do Raio| L[Exibir Notificação]
+    
+    H -->|Não| M[Encerrar App]
+
+
+```
 <br><br><br><br><br>
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=440&size=22&pause=1000&color=9c20f5&center=false&vCenter=false&repeat=false&width=435&lines=Manual do Usuário" alt="Typing SVG" />
